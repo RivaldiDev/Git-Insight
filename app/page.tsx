@@ -9,10 +9,11 @@ import { RepoHealthCard } from '@/components/cards/repo-health-card'
 import { SkillRadar } from '@/components/charts/skill-radar'
 import { ProfileCard } from '@/components/cards/profile-card'
 import { exportToPng } from '@/lib/export'
+import { ModeToggle } from '@/components/mode-toggle'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Loader2, Search, Download } from 'lucide-react'
+import { Loader2, Search, Download, Github } from 'lucide-react'
 
 export default function Home() {
   const [username, setUsername] = useState('')
@@ -50,33 +51,38 @@ export default function Home() {
   return (
     <main className="min-h-screen p-8">
       <div className="mx-auto max-w-7xl">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold">Git Insight</h1>
-          <p className="mt-2 text-muted-foreground">
-            Analyze any GitHub profile with advanced metrics and visualizations
-          </p>
-          
-          <div className="mx-auto mt-8 flex max-w-md gap-2">
-            <Input
-              placeholder="Enter GitHub username..."
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-            />
-            <Button onClick={handleSearch} disabled={loading}>
-              {loading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Search className="h-4 w-4" />
-              )}
-              Analyze
-            </Button>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Github className="h-8 w-8" />
+            <h1 className="text-3xl font-bold">Git Insight</h1>
           </div>
-          
-          {error && (
-            <p className="mt-4 text-center text-red-500">{error}</p>
-          )}
+          <ModeToggle />
         </div>
+        
+        <p className="mt-2 text-muted-foreground">
+          Analyze any GitHub profile with advanced metrics and visualizations
+        </p>
+        
+        <div className="mx-auto mt-8 flex max-w-md gap-2">
+          <Input
+            placeholder="Enter GitHub username..."
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+          />
+          <Button onClick={handleSearch} disabled={loading}>
+            {loading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Search className="h-4 w-4" />
+            )}
+            Analyze
+          </Button>
+        </div>
+        
+        {error && (
+          <p className="mt-4 text-center text-red-500">{error}</p>
+        )}
 
         {data && (
           <div className="mx-auto mt-8 max-w-7xl">
